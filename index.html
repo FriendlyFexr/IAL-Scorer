@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pearson Grade Converter URL Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+    }
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .column {
+      display: flex;
+      flex-direction: column;
+    }
+    .column h3 {
+      font-size: 1.1rem;
+      border-bottom: 2px solid #007ac1;
+      padding-bottom: 5px;
+      margin-top: 0;
+      margin-bottom: 12px;
+    }
+    .option {
+      margin-bottom: 8px;
+      cursor: pointer;
+    }
+    .option input {
+      margin-right: 8px;
+    }
+    .output-section {
+      margin-top: 25px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .output-section h3 {
+      margin-top: 0;
+    }
+    .url-box {
+      word-break: break-all;
+      background: #f0f4f8;
+      padding: 12px;
+      border: 1px solid #d0dbe5;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 0.95rem;
+    }
+    .btn {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 10px 16px;
+      background-color: #007ac1;
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+      font-weight: bold;
+    }
+    .btn:hover {
+      background-color: #005a90;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Pearson Grade Converter URL Builder</h1>
+
+  <div class="grid-container">
+    <!-- Column 1: Subject -->
+    <div class="column">
+      <h3>SUBJECT NAME</h3>
+      <label class="option"><input type="radio" name="subject" value="Physics" checked> Physics</label>
+      <label class="option"><input type="radio" name="subject" value="Chemistry"> Chemistry</label>
+    </div>
+
+    <!-- Column 2: Paper Number -->
+    <div class="column">
+      <h3>Paper Number</h3>
+      <label class="option"><input type="radio" name="paper" value="P1" checked> P1</label>
+      <label class="option"><input type="radio" name="paper" value="P2"> P2</label>
+      <label class="option"><input type="radio" name="paper" value="P3"> P3</label>
+      <label class="option"><input type="radio" name="paper" value="P4"> P4</label>
+      <label class="option"><input type="radio" name="paper" value="P5"> P5</label>
+      <label class="option"><input type="radio" name="paper" value="P6"> P6</label>
+    </div>
+
+    <!-- Column 3: Year -->
+    <div class="column">
+      <h3>Year</h3>
+      <label class="option"><input type="radio" name="year" value="2019"> 2019</label>
+      <label class="option"><input type="radio" name="year" value="2020"> 2020</label>
+      <label class="option"><input type="radio" name="year" value="2021"> 2021</label>
+      <label class="option"><input type="radio" name="year" value="2022"> 2022</label>
+      <label class="option"><input type="radio" name="year" value="2023"> 2023</label>
+      <label class="option"><input type="radio" name="year" value="2024" checked> 2024</label>
+      <label class="option"><input type="radio" name="year" value="2025"> 2025</label>
+      <label class="option"><input type="radio" name="year" value="2026"> 2026</label>
+    </div>
+
+    <!-- Column 4: Sitting -->
+    <div class="column">
+      <h3>Sitting</h3>
+      <label class="option"><input type="radio" name="sitting" value="Jan"> Jan</label>
+      <label class="option"><input type="radio" name="sitting" value="June" checked> Jun</label>
+      <label class="option"><input type="radio" name="sitting" value="Oct"> Oct</label>
+    </div>
+  </div>
+
+  <div class="output-section">
+    <h3>Generated URL:</h3>
+    <div id="urlDisplay" class="url-box"></div>
+    <a id="urlLink" href="#" target="_blank" class="btn">Open Link</a>
+  </div>
+
+  <script>
+    // Dictionary mapping subject & paper to qualification and unit details
+    const unitMapping = {
+      Physics: {
+        P1: { qual: "Physics (2018)", unit: "WPH11/01 - Unit 1: Physics on the Go" },
+        P2: { qual: "Physics (2018)", unit: "WPH12/01 - Unit 2: Physics at Work" },
+        P3: { qual: "Physics (2018)", unit: "WPH13/01 - Unit 3: Practical Skills in Physics I" },
+        P4: { qual: "Physics (2018)", unit: "WPH14/01 - Unit 4: Further Mechanics, Fields and Particles" },
+        P5: { qual: "Physics (2018)", unit: "WPH15/01 - Unit 5: Thermodynamics, Radiation, Oscillations and Cosmology" },
+        P6: { qual: "Physics (2018)", unit: "WPH16/01 - Unit 6: Practical Skills in Physics II" }
+      },
+      Chemistry: {
+        P1: { qual: "Chemistry (2018)", unit: "WCH11/01 - Unit 1: Structure, Bonding and Introduction to Organic Chemistry" },
+        P2: { qual: "Chemistry (2018)", unit: "WCH12/01 - Unit 2: Energetics, Group Chemistry, Halogenoalkanes and Alcohols" },
+        P3: { qual: "Chemistry (2018)", unit: "WCH13/01 - Unit 3: Practical Skills in Chemistry I" },
+        P4: { qual: "Chemistry (2018)", unit: "WCH14/01 - Unit 4: Rates, Equilibria and Further Organic Chemistry" },
+        P5: { qual: "Chemistry (2018)", unit: "WCH15/01 - Unit 5: Transition Metals, Organic Nitrogen Chemistry and Spectroscopy" },
+        P6: { qual: "Chemistry (2018)", unit: "WCH16/01 - Unit 6: Practical Skills in Chemistry II" }
+      }
+    };
+
+    function generateURL() {
+      const subject = document.querySelector('input[name="subject"]:checked').value;
+      const paper = document.querySelector('input[name="paper"]:checked').value;
+      const year = document.querySelector('input[name="year"]:checked').value;
+      const sitting = document.querySelector('input[name="sitting"]:checked').value;
+
+      // Expand month names if necessary (e.g. "Jun" -> "June")
+      let fullSitting = sitting;
+      if (sitting === "Jun") fullSitting = "June";
+
+      const examSeries = `${fullSitting} ${year}`;
+      const unitInfo = unitMapping[subject][paper];
+
+      const baseUrl = "https://qualifications.pearson.com/en/support/support-topics/results-certification/understanding-marks-and-grades/converting-marks-points-and-grades.html";
+      
+      const params = new URLSearchParams({
+        "QualFamily": "International A Level",
+        "ExamSeries": examSeries,
+        "Qualification": unitInfo.qual,
+        "Unit": unitInfo.unit
+      });
+
+      const fullUrl = `${baseUrl}?${params.toString()}`;
+
+      document.getElementById('urlDisplay').innerText = fullUrl;
+      document.getElementById('urlLink').href = fullUrl;
+    }
+
+    // Attach event listeners to all radio buttons
+    document.querySelectorAll('input[type="radio"]').forEach(radio => {
+      radio.addEventListener('change', generateURL);
+    });
+
+    // Initial trigger on load
+    generateURL();
+  </script>
+</body>
+</html>
