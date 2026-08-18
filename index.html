@@ -5,128 +5,219 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pearson IAL UMS Converter</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-      background-color: #f9f9f9;
-      color: #333;
-    }
-    h1 {
-      font-size: 1.5rem;
-      margin-bottom: 20px;
-    }
+      /* Body Background: Soft Cool Slate Blue */
+  body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #f0f4f8; /* Soft blue-gray tint */
+    color: #1e293b;            /* Dark slate for high contrast */
+  }
+
+  /* Main Title Color */
+  h1 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: #0f172a;            /* Deep navy-slate */
+  }
+
+  /* Container Box Styling */
+  .grid-container {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 122, 193, 0.08); /* Soft blue shadow tint */
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(4, 1fr); 
+    border: 1px solid #e2e8f0;  /* Subtle grey-blue outline */
+  }
+
+  /* Make wrapper groups invisible to the Desktop Grid */
+  .mobile-left-group,
+  .mobile-right-group {
+    display: contents;
+  }
+
+  .column {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Section Headers: Styled with primary accent blue */
+  .column h3 {
+    font-size: 1.1rem;
+    color: #007ac1;            /* Matches the main button color */
+    border-bottom: 2px solid #007ac1;
+    padding-bottom: 5px;
+    margin-top: 0;
+    margin-bottom: 12px;
+  }
+
+  /* Interactive Radio Option Labels */
+  .option {
+    margin-bottom: 8px;
+    cursor: pointer;
+    color: #334155;
+    padding: 2px 4px;
+    border-radius: 4px;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+
+  /* Soft blue highlight when hovering options */
+  .option:hover {
+    background-color: #e0f2fe;
+    color: #005a90;
+  }
+
+  .option input {
+    margin-right: 8px;
+    accent-color: #007ac1;     /* Colors the radio button circle itself */
+  }
+
+  /* Go Button Styling (Unchanged Color) */
+  .btn {
+    grid-column: 1 / -1;
+    width: 100%;
+    box-sizing: border-box;
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #007ac1, #005a90);
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    letter-spacing: 0.5px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+    transition: all 0.2s ease-in-out;
+  }
+  .btn:hover {
+    background: linear-gradient(135deg, #005a90, #003e63);
+    box-shadow: 0 5px 10px rgba(0,0,0,0.25);
+    transform: translateY(-1px);
+  }
+
+  /* MOBILE LAYOUT (Screen width 600px or below) */
+  @media (max-width: 600px) {
     .grid-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 20px;
-      background: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-    .column {
       display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .mobile-left-group,
+    .mobile-right-group {
+      display: flex;
+      flex: 1;
       flex-direction: column;
+      gap: 20px;
+      min-width: 130px; 
     }
-    .column h3 {
-      font-size: 1.1rem;
-      border-bottom: 2px solid #007ac1;
-      padding-bottom: 5px;
-      margin-top: 0;
-      margin-bottom: 12px;
-    }
-    .option {
-      margin-bottom: 8px;
-      cursor: pointer;
-    }
-    .option input {
-      margin-right: 8px;
-    }
-    .output-section {
-      margin-top: 25px;
-      background: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-    .output-section h3 {
-      margin-top: 0;
-    }
-    .url-box {
-      word-break: break-all;
-      background: #f0f4f8;
-      padding: 12px;
-      border: 1px solid #d0dbe5;
-      border-radius: 4px;
-      font-family: monospace;
-      font-size: 0.95rem;
-    }
-    .btn {
-      display: inline-block;
-      margin-top: 12px;
-      padding: 10px 16px;
-      background-color: #007ac1;
-      color: white;
-      text-decoration: none;
-      border-radius: 4px;
-      font-weight: bold;
-    }
-    .btn:hover {
-      background-color: #005a90;
-    }
+  }
+
+  /* Output Section Container */
+  .output-section {
+    margin-top: 25px;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 122, 193, 0.08);
+    border: 1px solid #e2e8f0;
+  }
+  
+  /* Interactive Toggle Header */
+  .toggle-header {
+    margin: 0;
+    cursor: pointer;
+    color: #007ac1;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.15s ease;
+  }
+  .toggle-header:hover {
+    color: #005a90;
+  }
+
+  /* Hidden URL Box */
+  .url-box {
+    display: none;
+    margin-top: 15px;
+    word-break: break-all;
+    background: #f8fafc;        /* Cool white-gray */
+    padding: 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 0.8rem;
+    font-style: italic;
+    color: #475569;
+  }
+
   </style>
 </head>
 <body>
 
-  <h1>Edexcel IAL UMS Converter [Chemistry/ Physics]</h1>
+  <h1>Edexcel IAL UMS Converter</h1>
 
   <div class="grid-container">
-    <!-- Column 1: Subject -->
-    <div class="column">
-      <h3>SUBJECT :</h3>
-      <label class="option"><input type="radio" name="subject" value="Chemistry"> Chemistry</label>
-      <label class="option"><input type="radio" name="subject" value="Physics"> Physics</label>
+    <!-- Left Stack on Mobile -->
+    <div class="mobile-left-group">
+      <!-- Column 1: Subject -->
+      <div class="column col-subject">
+        <h3>SUBJECT :</h3>
+        <label class="option"><input type="radio" name="subject" value="Chemistry" checked> Chemistry</label>
+        <label class="option"><input type="radio" name="subject" value="Physics"> Physics</label>
+      </div>
+
+      <!-- Column 2: Unit -->
+      <div class="column col-unit">
+        <h3>Unit :</h3>
+        <label class="option"><input type="radio" name="paper" value="P1" checked> P1</label>
+        <label class="option"><input type="radio" name="paper" value="P2"> P2</label>
+        <label class="option"><input type="radio" name="paper" value="P3"> P3</label>
+        <label class="option"><input type="radio" name="paper" value="P4"> P4</label>
+        <label class="option"><input type="radio" name="paper" value="P5"> P5</label>
+        <label class="option"><input type="radio" name="paper" value="P6"> P6</label>
+      </div>
     </div>
 
-    <!-- Column 2: Paper Number -->
-    <div class="column">
-      <h3>Unit :</h3>
-      <label class="option"><input type="radio" name="paper" value="P1"> P1</label>
-      <label class="option"><input type="radio" name="paper" value="P2"> P2</label>
-      <label class="option"><input type="radio" name="paper" value="P3"> P3</label>
-      <label class="option"><input type="radio" name="paper" value="P4"> P4</label>
-      <label class="option"><input type="radio" name="paper" value="P5"> P5</label>
-      <label class="option"><input type="radio" name="paper" value="P6"> P6</label>
+    <!-- Right Stack on Mobile -->
+    <div class="mobile-right-group">
+      <!-- Column 3: Year -->
+      <div class="column col-year">
+        <h3>Year :</h3>
+        <label class="option"><input type="radio" name="year" value="2021"> 2021</label>
+        <label class="option"><input type="radio" name="year" value="2022"> 2022</label>
+        <label class="option"><input type="radio" name="year" value="2023"> 2023</label>
+        <label class="option"><input type="radio" name="year" value="2024"> 2024</label>
+        <label class="option"><input type="radio" name="year" value="2025"> 2025</label>
+        <label class="option"><input type="radio" name="year" value="2026" checked> 2026</label>
+      </div>
+
+      <!-- Column 4: Series -->
+      <div class="column col-series">
+        <h3>Series :</h3>
+        <label class="option"><input type="radio" name="sitting" value="January" checked> Jan</label>
+        <label class="option"><input type="radio" name="sitting" value="June"> Jun</label>
+        <label class="option"><input type="radio" name="sitting" value="October"> Oct</label>
+      </div>
     </div>
 
-    <!-- Column 3: Year -->
-    <div class="column">
-      <h3>Year :</h3>
-      <label class="option"><input type="radio" name="year" value="2021"> 2021</label>
-      <label class="option"><input type="radio" name="year" value="2022"> 2022</label>
-      <label class="option"><input type="radio" name="year" value="2023"> 2023</label>
-      <label class="option"><input type="radio" name="year" value="2024"> 2024</label>
-      <label class="option"><input type="radio" name="year" value="2025"> 2025</label>
-      <label class="option"><input type="radio" name="year" value="2026"> 2026</label>
-    </div>
-
-    <!-- Column 4: Series -->
-    <div class="column">
-      <h3>Series :</h3>
-      <label class="option"><input type="radio" name="sitting" value="January"> Jan</label>
-      <label class="option"><input type="radio" name="sitting" value="June"> Jun</label>
-      <label class="option"><input type="radio" name="sitting" value="October"> Oct</label>
-    </div>
+    <!-- Go Button span at bottom -->
     <a id="urlLink" href="#" target="_blank" class="btn">Go</a>
   </div>
 
   <div class="output-section">
-    <h3>URL:</h3>
+    <!-- Collapsible Header -->
+    <h3 id="toggleUrlHeader" class="toggle-header" onclick="toggleUrlVisibility()">Show URL</h3>
     <div id="urlDisplay" class="url-box"></div>
   </div>
 
   <script>
-    // Dictionary mapping subject & paper to qualification and unit details
     const unitMapping = {
       Physics: {
         P1: { qual: "Physics (2018)", unit: "WPH11/01 - Mechanics and Materials" },
@@ -152,7 +243,6 @@
       const year = document.querySelector('input[name="year"]:checked').value;
       const sitting = document.querySelector('input[name="sitting"]:checked').value;
 
-      // Expand month names if necessary (e.g. "Jun" -> "June")
       let fullSitting = sitting;
       if (sitting === "Jun") fullSitting = "June";
       if (sitting === "Oct") fullSitting = "October";
@@ -176,12 +266,24 @@
       document.getElementById('urlLink').href = fullUrl;
     }
 
-    // Attach event listeners to all radio buttons
+    /* Toggles the URL display box and header text */
+    function toggleUrlVisibility() {
+      const urlBox = document.getElementById('urlDisplay');
+      const header = document.getElementById('toggleUrlHeader');
+
+      if (urlBox.style.display === 'block') {
+        urlBox.style.display = 'none';
+        header.innerText = 'Show URL';
+      } else {
+        urlBox.style.display = 'block';
+        header.innerText = 'Hide URL';
+      }
+    }
+
     document.querySelectorAll('input[type="radio"]').forEach(radio => {
       radio.addEventListener('change', generateURL);
     });
 
-    // Initial trigger on load
     generateURL();
   </script>
 </body>
