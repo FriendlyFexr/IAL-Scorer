@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pearson Grade Converter URL Generator</title>
+  <title>Pearson IAL UMS Converter</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -78,20 +78,20 @@
 </head>
 <body>
 
-  <h1>Pearson Grade Converter URL Builder</h1>
+  <h1>Edexcel IAL UMS Converter [Chemistry/ Physics]</h1>
 
   <div class="grid-container">
     <!-- Column 1: Subject -->
     <div class="column">
-      <h3>SUBJECT NAME</h3>
-      <label class="option"><input type="radio" name="subject" value="Physics" checked> Physics</label>
+      <h3>SUBJECT :</h3>
       <label class="option"><input type="radio" name="subject" value="Chemistry"> Chemistry</label>
+      <label class="option"><input type="radio" name="subject" value="Physics"> Physics</label>
     </div>
 
     <!-- Column 2: Paper Number -->
     <div class="column">
-      <h3>Paper Number</h3>
-      <label class="option"><input type="radio" name="paper" value="P1" checked> P1</label>
+      <h3>Unit :</h3>
+      <label class="option"><input type="radio" name="paper" value="P1"> P1</label>
       <label class="option"><input type="radio" name="paper" value="P2"> P2</label>
       <label class="option"><input type="radio" name="paper" value="P3"> P3</label>
       <label class="option"><input type="radio" name="paper" value="P4"> P4</label>
@@ -101,49 +101,47 @@
 
     <!-- Column 3: Year -->
     <div class="column">
-      <h3>Year</h3>
-      <label class="option"><input type="radio" name="year" value="2019"> 2019</label>
-      <label class="option"><input type="radio" name="year" value="2020"> 2020</label>
+      <h3>Year :</h3>
       <label class="option"><input type="radio" name="year" value="2021"> 2021</label>
       <label class="option"><input type="radio" name="year" value="2022"> 2022</label>
       <label class="option"><input type="radio" name="year" value="2023"> 2023</label>
-      <label class="option"><input type="radio" name="year" value="2024" checked> 2024</label>
+      <label class="option"><input type="radio" name="year" value="2024"> 2024</label>
       <label class="option"><input type="radio" name="year" value="2025"> 2025</label>
       <label class="option"><input type="radio" name="year" value="2026"> 2026</label>
     </div>
 
-    <!-- Column 4: Sitting -->
+    <!-- Column 4: Series -->
     <div class="column">
-      <h3>Sitting</h3>
-      <label class="option"><input type="radio" name="sitting" value="Jan"> Jan</label>
-      <label class="option"><input type="radio" name="sitting" value="June" checked> Jun</label>
-      <label class="option"><input type="radio" name="sitting" value="Oct"> Oct</label>
+      <h3>Series :</h3>
+      <label class="option"><input type="radio" name="sitting" value="January"> Jan</label>
+      <label class="option"><input type="radio" name="sitting" value="June"> Jun</label>
+      <label class="option"><input type="radio" name="sitting" value="October"> Oct</label>
     </div>
+    <a id="urlLink" href="#" target="_blank" class="btn">Go</a>
   </div>
 
   <div class="output-section">
-    <h3>Generated URL:</h3>
+    <h3>URL:</h3>
     <div id="urlDisplay" class="url-box"></div>
-    <a id="urlLink" href="#" target="_blank" class="btn">Open Link</a>
   </div>
 
   <script>
     // Dictionary mapping subject & paper to qualification and unit details
     const unitMapping = {
       Physics: {
-        P1: { qual: "Physics (2018)", unit: "WPH11/01 - Unit 1: Physics on the Go" },
-        P2: { qual: "Physics (2018)", unit: "WPH12/01 - Unit 2: Physics at Work" },
-        P3: { qual: "Physics (2018)", unit: "WPH13/01 - Unit 3: Practical Skills in Physics I" },
-        P4: { qual: "Physics (2018)", unit: "WPH14/01 - Unit 4: Further Mechanics, Fields and Particles" },
+        P1: { qual: "Physics (2018)", unit: "WPH11/01 - Mechanics and Materials" },
+        P2: { qual: "Physics (2018)", unit: "WPH12/01 - Waves and Electricity" },
+        P3: { qual: "Physics (2018)", unit: "WPH13/01 - Practical Skills in Physics I" },
+        P4: { qual: "Physics (2018)", unit: "WPH14/01 - Further Mechanics, Fields and Particles" },
         P5: { qual: "Physics (2018)", unit: "WPH15/01 - Unit 5: Thermodynamics, Radiation, Oscillations and Cosmology" },
         P6: { qual: "Physics (2018)", unit: "WPH16/01 - Unit 6: Practical Skills in Physics II" }
       },
       Chemistry: {
-        P1: { qual: "Chemistry (2018)", unit: "WCH11/01 - Unit 1: Structure, Bonding and Introduction to Organic Chemistry" },
-        P2: { qual: "Chemistry (2018)", unit: "WCH12/01 - Unit 2: Energetics, Group Chemistry, Halogenoalkanes and Alcohols" },
-        P3: { qual: "Chemistry (2018)", unit: "WCH13/01 - Unit 3: Practical Skills in Chemistry I" },
-        P4: { qual: "Chemistry (2018)", unit: "WCH14/01 - Unit 4: Rates, Equilibria and Further Organic Chemistry" },
-        P5: { qual: "Chemistry (2018)", unit: "WCH15/01 - Unit 5: Transition Metals, Organic Nitrogen Chemistry and Spectroscopy" },
+        P1: { qual: "Chemistry (2018)", unit: "WCH11/01 - Structure, Bonding and Introduction to Organic Chemistry" },
+        P2: { qual: "Chemistry (2018)", unit: "WCH12/01 - Energetics, Group Chemistry, Halogenoalkanes and Alcohols" },
+        P3: { qual: "Chemistry (2018)", unit: "WCH13/01 - Practical Skills in Chemistry I" },
+        P4: { qual: "Chemistry (2018)", unit: "WCH14/01 - Rates, Equilibria and Further Organic Chemistry" },
+        P5: { qual: "Chemistry (2018)", unit: "WCH15/01 - Unit 5: Transition Metals and Organic Nitrogen Chemistry" },
         P6: { qual: "Chemistry (2018)", unit: "WCH16/01 - Unit 6: Practical Skills in Chemistry II" }
       }
     };
@@ -157,6 +155,8 @@
       // Expand month names if necessary (e.g. "Jun" -> "June")
       let fullSitting = sitting;
       if (sitting === "Jun") fullSitting = "June";
+      if (sitting === "Oct") fullSitting = "October";
+      if (sitting === "Jan") fullSitting = "January";
 
       const examSeries = `${fullSitting} ${year}`;
       const unitInfo = unitMapping[subject][paper];
